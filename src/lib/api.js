@@ -3,7 +3,7 @@ import mergeDeep from "@bit/lodash.lodash.merge";
 const apiUrl = "https://api.github.com/graphql";
 
 //Fetch JSON
-export async function fetchJSON(url, options = {}) {
+export default async function fetchJSON(url, options = {}) {
     options = mergeDeep(options, {
         // credentials: 'same-origin',
         headers: {
@@ -33,7 +33,7 @@ export async function fetchJSON(url, options = {}) {
 }
 
 //Fetch GraphQL
-export default async function fetchGQL(query, variables) {
+export async function fetchGQL(query, variables) {
     let {body, status} = await fetchJSON(apiUrl, {
         method: "POST",
         body: {
