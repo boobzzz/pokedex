@@ -1588,6 +1588,39 @@
     "@bit/lodash.lodash.internal._copy-object" "4.17.11"
     "@bit/lodash.lodash.keys-in" "4.17.11"
 
+"@bit/ramda.ramda.internal._curry1@0.26.1":
+  version "0.26.1"
+  resolved "https://node.bit.dev/ramda.ramda.internal._curry1/-/ramda.ramda.internal._curry1-0.26.1.tgz#c115be3440ae3a3bd63bbde9a176c76df0408012"
+  integrity sha1-wRW+NECuOjvWO73poXbHbfBAgBI=
+  dependencies:
+    "@bit/ramda.ramda.internal._is-placeholder" "0.26.1"
+
+"@bit/ramda.ramda.internal._curry2@0.26.1":
+  version "0.26.1"
+  resolved "https://node.bit.dev/ramda.ramda.internal._curry2/-/ramda.ramda.internal._curry2-0.26.1.tgz#91765e419f0353697b9917e4367a1d86caa1ca1c"
+  integrity sha1-kXZeQZ8DU2l7mRfkNnodhsqhyhw=
+  dependencies:
+    "@bit/ramda.ramda.internal._curry1" "0.26.1"
+    "@bit/ramda.ramda.internal._is-placeholder" "0.26.1"
+
+"@bit/ramda.ramda.internal._is-number@0.26.1":
+  version "0.26.1"
+  resolved "https://node.bit.dev/ramda.ramda.internal._is-number/-/ramda.ramda.internal._is-number-0.26.1.tgz#18ec787457e73e733a4453725c6d2b347480a452"
+  integrity sha1-GOx4dFfnPnM6RFNyXG0rNHSApFI=
+
+"@bit/ramda.ramda.internal._is-placeholder@0.26.1":
+  version "0.26.1"
+  resolved "https://node.bit.dev/ramda.ramda.internal._is-placeholder/-/ramda.ramda.internal._is-placeholder-0.26.1.tgz#7b9d90316e7b553cd1138601e498cf0cf2bed6a9"
+  integrity sha1-e52QMW57VTzRE4YB5JjPDPK+1qk=
+
+"@bit/ramda.ramda.range@^0.26.1":
+  version "0.26.1"
+  resolved "https://node.bit.dev/ramda.ramda.range/-/ramda.ramda.range-0.26.1.tgz#c45698e41edfe18ef8a4c909802140b9e54bb3fa"
+  integrity sha1-xFaY5B7f4Y74pMkJgCFAueVLs/o=
+  dependencies:
+    "@bit/ramda.ramda.internal._curry2" "0.26.1"
+    "@bit/ramda.ramda.internal._is-number" "0.26.1"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"

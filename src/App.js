@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import fetchJSON from './lib/api.js';
+import range from '@bit/ramda.ramda.range';
 import ListItem from './components/ListItem/ListItem';
 import Button from './components/Button/Button';
 
-const API_ORIGIN = "https://pokeapi.co/api/v2/pokemon";
+const API_ORIGIN = 'https://pokeapi.co/api/v2/pokemon';
+const spriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'
+const limitItems = 50;
 const perPage = 5;
-const totalPages = 10;
 
 export default class App extends Component {
     state = {
@@ -18,32 +20,37 @@ export default class App extends Component {
             isLoading: true
         })
 
-        let data = await fetchJSON(`${API_ORIGIN}?limit=${perPage}`);
+        let data = await fetchJSON(`${API_ORIGIN}?limit=${limitItems}`);
 
         this.setState({
             isLoading: false,
             data: data.body.results
         })
+        let urls = data.body.results.map(p => p.url)
+        console.log(urls);
     }
 
     render() {
         let { isLoading, data } = this.state;
-        console.log(data);
+        let pages = Math.floor(data.length / perPage);
+        let page = range(1, pages + 1)
+        console.log(page);
         return (
             isLoading
             ? <div>Loading...</div>
             : <div>
                 <label>
                     Name:
-                    {" "}
+                    {' '}
                     <input type="text" placeholder="Pikachu..."/>
                 </label>
-                {data.map((item, i) =>
+                {data.map((pokemon, i) =>
                     <ListItem
                         key={i}
-                        image={item.url}
-                        name={item.name} />
+                        image={`${spriteUrl}${pokemon.id}.png`}
+                        name={pokemon.name} />
                 )}
+                {range(1, pages + 1).map(item => <Button page={item} />)}
             </div>
         )
     }
