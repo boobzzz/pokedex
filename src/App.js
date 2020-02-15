@@ -9,6 +9,10 @@ const spriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/spri
 const limitItems = 50;
 const perPage = 5;
 
+let urlMatch = (url) => {
+  return url.match(/(\d+)\/$/)[1]
+}
+
 export default class App extends Component {
     state = {
         isLoading: false,
@@ -26,15 +30,13 @@ export default class App extends Component {
             isLoading: false,
             data: data.body.results
         })
-        let urls = data.body.results.map(p => p.url)
-        console.log(urls);
     }
 
     render() {
         let { isLoading, data } = this.state;
         let pages = Math.floor(data.length / perPage);
         let page = range(1, pages + 1)
-        console.log(page);
+
         return (
             isLoading
             ? <div>Loading...</div>
@@ -44,10 +46,10 @@ export default class App extends Component {
                     {' '}
                     <input type="text" placeholder="Pikachu..."/>
                 </label>
-                {data.map((pokemon, i) =>
+                {data.map(pokemon =>
                     <ListItem
-                        key={i}
-                        image={`${spriteUrl}${pokemon.id}.png`}
+                        key={pokemon.url}
+                        image={`${spriteUrl}${urlMatch(pokemon.url)}.png`}
                         name={pokemon.name} />
                 )}
                 {range(1, pages + 1).map(item => <Button page={item} />)}
