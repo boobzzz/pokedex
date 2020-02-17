@@ -9,14 +9,19 @@ const spriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/spri
 const limitItems = 50;
 const perPage = 5;
 
-let urlMatch = (url) => {
+let urlMatch = url => {
   return url.match(/(\d+)\/$/)[1]
+}
+
+let spliced = (arr, i, n) => {
+    arr.splice(i * n, i * n + n)
 }
 
 export default class App extends Component {
     state = {
         isLoading: false,
-        data: []
+        pokemons: [],
+        currentPage: 1
     }
 
     componentDidMount = async () => {
@@ -25,18 +30,25 @@ export default class App extends Component {
         })
 
         let data = await fetchJSON(`${API_ORIGIN}?limit=${limitItems}`);
+        let sorted
 
         this.setState({
             isLoading: false,
-            data: data.body.results
+            pokemons: data.body.results.sort()
         })
     }
 
-    render() {
-        let { isLoading, data } = this.state;
-        let pages = Math.floor(data.length / perPage);
-        let page = range(1, pages + 1)
+    setPage = (page) => {
+        // this.setState({
+        //     currentPage: page
+        // })
+    }
 
+    render() {
+        let { isLoading, pokemons, currentPage } = this.state;
+        let pages = Math.floor(pokemons.length / perPage);
+        // let currentItems = pokemons.slice(currentPage)
+        console.log(pokemons);
         return (
             isLoading
             ? <div>Loading...</div>
@@ -46,13 +58,18 @@ export default class App extends Component {
                     {' '}
                     <input type="text" placeholder="Pikachu..."/>
                 </label>
-                {data.map(pokemon =>
+                {pokemons.map(pokemon =>
                     <ListItem
                         key={pokemon.url}
                         image={`${spriteUrl}${urlMatch(pokemon.url)}.png`}
                         name={pokemon.name} />
                 )}
-                {range(1, pages + 1).map(item => <Button page={item} />)}
+                {range(1, pages + 1).map(button =>
+                    <Button
+                        key={button}
+                        page={button}
+                        clicked={this.setPage()} />
+                )}
             </div>
         )
     }
