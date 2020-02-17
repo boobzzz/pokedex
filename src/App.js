@@ -9,19 +9,39 @@ const spriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/spri
 const limitItems = 50;
 const perPage = 5;
 
-let urlMatch = url => {
+let urlMatch = (url) => {
   return url.match(/(\d+)\/$/)[1]
 }
 
-let spliced = (arr, i, n) => {
-    arr.splice(i * n, i * n + n)
+let filter = (arr, v) => {
+    return arr.filter(el => el.name.match(v))
 }
+
+let slicer = (arr, i, n) => {
+    let start = i * n - n;
+    let end = start + n;
+
+    return arr.slice(start, end)
+}
+
+let compareFunc = (a, b) => {
+    if (a.name.toUpperCase() < b.name.toUpperCase()) {
+        return -1;
+    }
+
+    if (a.name.toUpperCase() > b.name.toUpperCase()) {
+        return 1;
+    }
+
+    return 0;
+};
 
 export default class App extends Component {
     state = {
         isLoading: false,
         pokemons: [],
-        currentPage: 1
+        currentPage: 1,
+        value: ''
     }
 
     componentDidMount = async () => {
@@ -30,25 +50,38 @@ export default class App extends Component {
         })
 
         let data = await fetchJSON(`${API_ORIGIN}?limit=${limitItems}`);
-        let sorted
+        let results = data.body.results.sort(compareFunc);
 
         this.setState({
             isLoading: false,
-            pokemons: data.body.results.sort()
+            pokemons: results
         })
     }
 
-    setPage = (page) => {
-        // this.setState({
-        //     currentPage: page
-        // })
+    setPage = (event) => {
+        let page = event.target.innerHTML;
+
+        this.setState({
+            currentPage: page
+        })
+    }
+
+    onInputFilter = (event) => {
+        let { pokemons } = this.state;
+        let { value } = event.target;
+        let filtered = filter(pokemons, value)
+
+        this.setState({
+            pokemons: filtered,
+            value: value
+        })
     }
 
     render() {
-        let { isLoading, pokemons, currentPage } = this.state;
+        let { isLoading, pokemons, currentPage, value } = this.state;
         let pages = Math.floor(pokemons.length / perPage);
-        // let currentItems = pokemons.slice(currentPage)
-        console.log(pokemons);
+        let pageItems = slicer(pokemons, currentPage, perPage);
+
         return (
             isLoading
             ? <div>Loading...</div>
@@ -56,9 +89,13 @@ export default class App extends Component {
                 <label>
                     Name:
                     {' '}
-                    <input type="text" placeholder="Pikachu..."/>
+                    <input
+                        type="text"
+                        placeholder="Pikachu..."
+                        onChange={this.onInputFilter}
+                        value={value}/>
                 </label>
-                {pokemons.map(pokemon =>
+                {pageItems.map(pokemon =>
                     <ListItem
                         key={pokemon.url}
                         image={`${spriteUrl}${urlMatch(pokemon.url)}.png`}
@@ -68,7 +105,7 @@ export default class App extends Component {
                     <Button
                         key={button}
                         page={button}
-                        clicked={this.setPage()} />
+                        clicked={this.setPage} />
                 )}
             </div>
         )
