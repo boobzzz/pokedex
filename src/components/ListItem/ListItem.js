@@ -1,10 +1,10 @@
 import React from 'react';
 
-const ListItem = props => {
+const ListItem = (props) => {
     return (
         <div>
             <img src={props.image} alt=""/>
-            <h4>{props.name}</h4>
+            <h4 style={{ margin: "5px" }}>{props.name}</h4>
         </div>
     )
 }
