@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Pokedex
 
-Implement live search and custom pagination
+Live search and custom pagination
 
 ## Task description
 
